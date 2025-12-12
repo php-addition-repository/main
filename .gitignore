@@ -1,0 +1,10 @@
+# Ignore IntelliJ IDEA project files and folders
+.idea/
+*.iml
+# Ignore IntelliJ-specific workspace files
+*.iws
+# Ignore IntelliJ out directory
+/out/
+# Ignore logs and other system files
+*.log
+
