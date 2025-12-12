@@ -1,2 +1,1 @@
-# main
-Main PAR repository
+# Main PHP Addition Repository
