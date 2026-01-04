@@ -21,3 +21,6 @@ packages/**/vendor/
 # PHPUnit
 /.phpunit.cache
 phpunit.xml
+
+# PHP-CS-Fixer
+.php-cs-fixer.cache
