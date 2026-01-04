@@ -35,5 +35,16 @@
       "target-directory": "tools",
       "forward-command": true
     }
+  },
+  "scripts": {
+    "qa": [
+      "@qa:cs",
+      "@qa:analyse",
+      "@test:unit"
+    ],
+    "test:unit": "phpunit",
+    "qa:analyse": "phpstan analyse",
+    "qa:cs": "php-cs-fixer fix --dry-run --diff",
+    "qa:fix": "php-cs-fixer fix"
   }
 }
