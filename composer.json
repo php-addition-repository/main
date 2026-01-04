@@ -3,8 +3,10 @@
   "type": "project",
   "license": "MIT",
   "require": {
-    "php": "^8.3",
-    "par/core": "@dev"
+    "php": "^8.3"
+  },
+  "replace": {
+    "par/core": "self.version"
   },
   "minimum-stability": "stable",
   "prefer-stable": true,
@@ -17,15 +19,16 @@
       "bamarni/composer-bin-plugin": true
     }
   },
-  "repositories": [
-    {
-      "type": "path",
-      "url": "packages/*",
-      "options": {
-        "symlink": true
-      }
+  "autoload": {
+    "psr-4": {
+      "Par\\Core\\": "packages/core/src/"
     }
-  ],
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Par\\Core\\Tests\\": "packages/core/tests/"
+    }
+  },
   "require-dev": {
     "bamarni/composer-bin-plugin": "^1.8"
   },

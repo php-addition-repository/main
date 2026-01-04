@@ -4,37 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d68de902fa1e483e4ec4a7262940ff28",
-    "packages": [
-        {
-            "name": "par/core",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "packages/core",
-                "reference": "cf1857255ba251b8aee99135ce4004e8160e0fc0"
-            },
-            "require": {
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Par\\Core\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Par\\Core\\Tests\\": "tests/"
-                }
-            },
-            "description": "Core library for the par project",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        }
-    ],
+    "content-hash": "701d3b49553d9918213ce5bf42c12e8d",
+    "packages": [],
     "packages-dev": [
         {
             "name": "bamarni/composer-bin-plugin",
@@ -96,9 +67,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "par/core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
