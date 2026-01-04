@@ -9,8 +9,15 @@
 *.log
 
 # Ignore Composer vendors and lock files in packages directory
-packages/*/composer.lock
-packages/*/vendor/
+packages/**/composer.lock
+packages/**/vendor/
 
 # Ignore main Composer vendor directory
 /vendor
+
+# Ignore tools vendor directories
+/tools/**/vendor/
+
+# PHPUnit
+/.phpunit.cache
+phpunit.xml

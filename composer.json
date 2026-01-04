@@ -12,6 +12,9 @@
     "sort-packages": true,
     "platform": {
       "php": "8.3.0"
+    },
+    "allow-plugins": {
+      "bamarni/composer-bin-plugin": true
     }
   },
   "repositories": [
@@ -22,6 +25,15 @@
         "symlink": true
       }
     }
-  ]
+  ],
+  "require-dev": {
+    "bamarni/composer-bin-plugin": "^1.8"
+  },
+  "extra": {
+    "bamarni-bin": {
+      "bin-links": true,
+      "target-directory": "tools",
+      "forward-command": true
+    }
+  }
 }
-
