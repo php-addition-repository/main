@@ -16,6 +16,12 @@ return (new PhpCsFixer\Config())
             'php_unit_internal_class' => ['types' => ['abstract', 'final', 'normal']],
             'php_unit_method_casing' => ['case' => 'camel_case'],
             'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
+            'ordered_imports' => ['sort_algorithm' => 'alpha', 'imports_order' => ['class', 'function', 'const']],
+            'global_namespace_import' => [
+                'import_classes' => true,
+                'import_constants' => true,
+                'import_functions' => true,
+            ],
         ],
     )
     ->setFinder($finder)
