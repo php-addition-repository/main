@@ -34,8 +34,6 @@ interface Equable
      * @param TValue|null $other The other value with which to compare
      *
      * @return bool `true` if this object should be considered equal to other value, `false` otherwise
-     *
-     * @phpstan-assert-if-true self $other
      */
     public function equals(?Equable $other): bool;
 }
