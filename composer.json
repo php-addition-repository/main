@@ -1,7 +1,11 @@
 {
   "name": "par/main",
   "type": "project",
-  "require": {},
+  "license": "MIT",
+  "require": {
+    "php": "^8.3",
+    "par/core": "@dev"
+  },
   "minimum-stability": "stable",
   "prefer-stable": true,
   "config": {

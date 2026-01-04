@@ -4,15 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "329e7a275dbda6f98cd4ad7f29c90303",
-    "packages": [],
+    "content-hash": "f668df1cb54feb3e74e7017f4a6c077a",
+    "packages": [
+        {
+            "name": "par/core",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "packages/core",
+                "reference": "cf1857255ba251b8aee99135ce4004e8160e0fc0"
+            },
+            "require": {
+                "php": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Par\\Core\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Par\\Core\\Tests\\": "tests/"
+                }
+            },
+            "description": "Core library for the par project",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "par/core": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^8.3"
+    },
     "platform-dev": [],
     "platform-overrides": {
         "php": "8.3.0"
