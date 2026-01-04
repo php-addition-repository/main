@@ -14,7 +14,7 @@ apply: always
 
 - Language: PHP 8.3
 - Dependency Management: Composer (Monolithic approach using `replace`)
-- Coding Standard: PSR-12 (or specify your preferred standard)
+- Coding Standard: PER-3.0 (using `php-cs-fixer`)
 - Autoloading: PSR-4 (configured at root)
 
 ### Development Guidelines
