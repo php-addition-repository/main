@@ -4,7 +4,6 @@
          bootstrap="vendor/autoload.php"
          cacheDirectory=".phpunit.cache"
          executionOrder="depends,defects"
-         requireCoverageMetadata="true"
          beStrictAboutCoverageMetadata="true"
          beStrictAboutOutputDuringTests="true"
          failOnRisky="true"
@@ -20,4 +19,8 @@
             <directory>packages/*/src</directory>
         </include>
     </source>
+
+    <extensions>
+        <bootstrap class="\Par\Core\PHPUnit\CoreExtension"/>
+    </extensions>
 </phpunit>
