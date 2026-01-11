@@ -13,6 +13,7 @@ HEAD_SHA="${4:-}"
 
 TOKEN="${ACCESS_TOKEN:-}"
 DRY_RUN="${DRY_RUN:-0}"
+ALLOW_DESTRUCTIVE_PUSH="${ALLOW_DESTRUCTIVE_PUSH:-false}"  # Option B toggle (see below)
 
 if [[ -z "$SELECTED_JSON_PATH" || -z "$REF_TYPE" || -z "$HEAD_SHA" ]]; then
   echo "Usage: $0 <selected_json_path> <ref_type:branch|tag> <tag_name|-> <head_sha>" >&2
@@ -24,9 +25,11 @@ if [[ -z "$TOKEN" ]]; then
   exit 1
 fi
 
-# Configure identity (useful locally too)
-git config user.name "Alex Brouwer"
-git config user.email "brouwer.alexander@gmail.com"
+# Ensure Git never falls back to cached GITHUB_TOKEN
+git config --global credential.helper ""
+git config --global --unset-all http.https://github.com/.extraheader || true
+git config user.name "${GIT_AUTHOR_NAME:-github-actions[bot]}"
+git config user.email "${GIT_AUTHOR_EMAIL:-github-actions[bot]@users.noreply.github.com}"
 
 mapfile -t SELECTED < <(jq -r '.[] | @base64' < "$SELECTED_JSON_PATH")
 
@@ -46,11 +49,34 @@ for row64 in "${SELECTED[@]}"; do
   git branch -D "$split_branch" 2>/dev/null || true
 
   if git subtree split --prefix="$path" "$HEAD_SHA" -b "$split_branch" >/dev/null 2>&1; then
+    # Determine push strategy
+    lease_arg=""
+    if [[ "$ALLOW_DESTRUCTIVE_PUSH" == "true" ]]; then
+      echo "    ALLOW_DESTRUCTIVE_PUSH=true — will use --force (no lease)."
+    else
+      echo "    Resolving remote $branch tip for lease..."
+      remote_main_sha="$(git ls-remote --heads "$base_url" "refs/heads/$branch" | awk '{print $1}' || true)"
+      if [[ -n "$remote_main_sha" ]]; then
+        lease_arg="--force-with-lease=refs/heads/${branch}:${remote_main_sha}"
+        echo "    Remote $branch is at $remote_main_sha (using lease)"
+      else
+        echo "    Remote $branch not found; creating it."
+      fi
+    fi
+
     echo "    Pushing split to $base_url:$branch"
     if [[ "$DRY_RUN" == "1" ]]; then
-      echo "DRY_RUN: git push --force-with-lease \"$target_url\" \"refs/heads/${split_branch}:refs/heads/${branch}\""
+      if [[ "$ALLOW_DESTRUCTIVE_PUSH" == "true" ]]; then
+        echo "DRY_RUN: git push --force \"$target_url\" \"refs/heads/${split_branch}:refs/heads/${branch}\""
+      else
+        echo "DRY_RUN: git push ${lease_arg} \"$target_url\" \"refs/heads/${split_branch}:refs/heads/${branch}\""
+      fi
     else
-      git push --force-with-lease "$target_url" "refs/heads/${split_branch}:refs/heads/${branch}"
+      if [[ "$ALLOW_DESTRUCTIVE_PUSH" == "true" ]]; then
+        git push --force "$target_url" "refs/heads/${split_branch}:refs/heads/${branch}"
+      else
+        git push ${lease_arg} "$target_url" "refs/heads/${split_branch}:refs/heads/${branch}"
+      fi
     fi
 
     if [[ "$REF_TYPE" == "tag" && -n "$TAG_NAME" ]]; then
