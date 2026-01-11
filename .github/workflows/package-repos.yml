@@ -27,6 +27,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false  # <— IMPORTANT: do not keep GITHUB_TOKEN in the repo config
 
       - name: Ensure jq is available
         run: |
@@ -80,6 +81,10 @@ jobs:
         env:
           ACCESS_TOKEN: ${{ secrets.MONOREPO_SPLITTING_TOKEN }}
         run: |
+          # Remove the extra header that actions/checkout can set for GITHUB_TOKEN
+          git config --global --unset-all http.https://github.com/.extraheader || true
+          # Disable any cached/system credential helpers so Git won't prompt or reuse GITHUB_TOKEN
+          git config --global credential.helper ""
           TAG_NAME="${GITHUB_REF##*/}"
           bin/gh-workflow/split_and_push.sh /tmp/selected.json "${GITHUB_REF_TYPE}" "$TAG_NAME" "${GITHUB_SHA}"
 
