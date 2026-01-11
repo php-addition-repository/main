@@ -3,7 +3,8 @@
   "type": "project",
   "license": "MIT",
   "require": {
-    "php": "^8.3"
+    "php": "^8.3",
+    "loophp/iterators": "^2.0 | ^3.0"
   },
   "replace": {
     "par/core": "self.version"

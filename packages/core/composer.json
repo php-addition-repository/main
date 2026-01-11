@@ -3,7 +3,8 @@
   "type": "library",
   "description": "Core structures and helpers",
   "require": {
-    "php": "^8.3"
+    "php": "^8.3",
+    "loophp/iterators": "^2.0 | ^3.0"
   },
   "suggest": {
     "phpunit/phpunit": "To assert value equality"
