@@ -5,64 +5,85 @@ on:
     branches:
       - main
     tags:
-      - '*'
+      - "*"
+
+concurrency:
+  group: split-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
 env:
-  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+  PACKAGES_DIR: packages
+  PUSH_ONLY_CHANGED_ON_MAIN: "true"
 
 jobs:
-  list_packages:
+  split:
     runs-on: ubuntu-latest
-    outputs:
-      packages: ${{ steps.set-packages.outputs.packages }}
+
     steps:
-      - uses: actions/checkout@v4
-      - id: set-packages
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure jq is available
         run: |
-          PACKAGES=$(ls -1 packages | jq -R -s -c 'split("\n")[:-1]')
-          echo "packages=$PACKAGES" >> $GITHUB_OUTPUT
+          if ! command -v jq >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y jq
+          fi
 
-  publish:
-    runs-on: ubuntu-latest
-    needs: list_packages
-    if: github.repository_owner == 'php-addition-repository'
-    strategy:
-      fail-fast: false
-      matrix:
-        package: ${{ fromJson(needs.list_packages.outputs.packages) }}
+      - name: Check ACCESS_TOKEN
+        run: bin/gh-workflow/check_token.sh
+        env:
+          ACCESS_TOKEN: ${{ secrets.MONOREPO_SPLITTING_TOKEN }}
 
-    name: Publish ${{ matrix.package }}
+      - name: Discover packages and build mapping
+        id: discover
+        shell: bash
+        run: |
+          bin/gh-workflow/discover_packages.sh "${{ github.repository_owner }}" "${PACKAGES_DIR}" > /tmp/packages.json
+          echo "Discovered packages:"
+          cat /tmp/packages.json | jq -r '.[] | "- \(.path) -> \(.repo) (branch: \(.default_branch))"'
+          echo "packages_json=$(cat /tmp/packages.json)" >> "$GITHUB_OUTPUT"
 
-    steps:
-      - uses: actions/checkout@v4
+      - name: Determine packages to push
+        id: plan
+        shell: bash
+        run: |
+          PACKAGES_JSON_PATH=/tmp/packages.json
+          if [ ! -s "$PACKAGES_JSON_PATH" ] || [ "$(jq 'length' "$PACKAGES_JSON_PATH")" -eq 0 ]; then
+            echo "::warning::No packages to process."
+            echo "none=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
 
-      # no tag
-      - if: "!startsWith(github.ref, 'refs/tags/')"
-        uses: danharrin/monorepo-split-github-action@v2.4.0
-        with:
-          # ↓ split "packages/easy-coding-standard" directory
-          package_directory: 'packages/${{ matrix.package }}'
+          BEFORE="${{ github.event.before || '-' }}"
+          bin/gh-workflow/plan_packages.sh "${GITHUB_REF_TYPE}" "$BEFORE" "${GITHUB_SHA}" "$PACKAGES_JSON_PATH" > /tmp/selected.json
 
-          # ↓ into https://github.com/symplify/easy-coding-standard repository
-          repository_organization: 'php-addition-repository'
-          repository_name: '${{ matrix.package }}'
+          if [ "$(jq 'length' /tmp/selected.json)" -eq 0 ]; then
+            echo "none=true" >> "$GITHUB_OUTPUT"
+            echo "Selected packages: (none)"
+          else
+            echo "none=false" >> "$GITHUB_OUTPUT"
+            echo "selected=$(cat /tmp/selected.json)" >> "$GITHUB_OUTPUT"
+            echo "Selected packages:"
+            cat /tmp/selected.json | jq -r '.[] | "- \(.path) -> \(.repo)"'
+          fi
 
-          # ↓ the user signed under the split commit
-          user_name: "alexbrouwer"
-          user_email: "brouwer.alexander@gmail.com"
+      - name: Split & push
+        if: steps.plan.outputs.none == 'false'
+        shell: bash
+        env:
+          ACCESS_TOKEN: ${{ secrets.MONOREPO_SPLITTING_TOKEN }}
+        run: |
+          TAG_NAME="${GITHUB_REF##*/}"
+          bin/gh-workflow/split_and_push.sh /tmp/selected.json "${GITHUB_REF_TYPE}" "$TAG_NAME" "${GITHUB_SHA}"
 
-      # with tag
-      - if: "startsWith(github.ref, 'refs/tags/')"
-        uses: danharrin/monorepo-split-github-action@v2.4.0
-        with:
-          tag: ${GITHUB_REF#refs/tags/}
-
-          # ↓ split "packages/easy-coding-standard" directory
-          package_directory: 'packages/${{ matrix.package }}'
-
-          # ↓ into https://github.com/symplify/easy-coding-standard repository
-          repository_organization: 'php-addition-repository'
-          repository_name: '${{ matrix.package }}'
-
-          # ↓ the user signed under the split commit
-          user_name: "alexbrouwer"
-          user_email: "brouwer.alexander@gmail.com"
+      - name: Summary
+        if: always()
+        run: |
+          echo "Ref: $GITHUB_REF ($GITHUB_REF_TYPE) @ $GITHUB_SHA"
+          echo "Done."
