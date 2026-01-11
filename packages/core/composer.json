@@ -1,7 +1,7 @@
 {
   "name": "par/core",
   "type": "library",
-  "description": "Core library for the par project",
+  "description": "Core structures and helpers",
   "require": {
     "php": "^8.3"
   },
