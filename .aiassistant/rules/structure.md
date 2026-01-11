@@ -9,6 +9,7 @@ apply: always
 - Each subdirectory in `packages/` is a standalone package with its own `composer.json`.
 - Root `composer.json` uses the `replace` configuration to manage packages in the `packages/` directory.
 - Autoloading for all packages is defined in the root `composer.json`.
+- The `bin` directory contains scripts to help with development of packages.
 
 ### Tech Stack & Standards
 
