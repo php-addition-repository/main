@@ -80,8 +80,6 @@ jobs:
         env:
           ACCESS_TOKEN: ${{ secrets.MONOREPO_SPLITTING_TOKEN }}
         run: |
-          GIT_AUTHOR_NAME="Alex Brouwer"
-          GIT_AUTHOR_EMAIL="brouwer.alexander@Gmail.com"
           TAG_NAME="${GITHUB_REF##*/}"
           bin/gh-workflow/split_and_push.sh /tmp/selected.json "${GITHUB_REF_TYPE}" "$TAG_NAME" "${GITHUB_SHA}"
 

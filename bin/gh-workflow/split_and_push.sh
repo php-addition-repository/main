@@ -25,8 +25,8 @@ if [[ -z "$TOKEN" ]]; then
 fi
 
 # Configure identity (useful locally too)
-git config user.name "${GIT_AUTHOR_NAME:-github-actions[bot]}"
-git config user.email "${GIT_AUTHOR_EMAIL:-github-actions[bot]@users.noreply.github.com}"
+git config user.name "Alex Brouwer"
+git config user.email "brouwer.alexander@gmail.com"
 
 mapfile -t SELECTED < <(jq -r '.[] | @base64' < "$SELECTED_JSON_PATH")
 
