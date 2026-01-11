@@ -5,6 +5,9 @@
   "require": {
     "php": "^8.3"
   },
+  "suggest": {
+    "phpunit/phpunit": "To assert value equality"
+  },
   "autoload": {
     "psr-4": {
       "Par\\Core\\": "src/"

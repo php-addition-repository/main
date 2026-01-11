@@ -6,6 +6,9 @@ namespace Par\Core\Tests;
 
 use Par\Core\Equable;
 
+/**
+ * @internal
+ */
 final readonly class EquableObject implements Equable
 {
     public function __construct(private string|int|float $value)
