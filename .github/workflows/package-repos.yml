@@ -61,7 +61,7 @@ jobs:
           fi
           
           #          BEFORE="${{ github.event.before || '-' }}"
-               BEFORE="-"
+          BEFORE="-"
           bin/gh-workflow/plan_packages.sh "${GITHUB_REF_TYPE}" "$BEFORE" "${GITHUB_SHA}" "$PACKAGES_JSON_PATH" > /tmp/selected.json
 
           if [ "$(jq 'length' /tmp/selected.json)" -eq 0 ]; then
@@ -79,9 +79,9 @@ jobs:
         shell: bash
         env:
           ACCESS_TOKEN: ${{ secrets.MONOREPO_SPLITTING_TOKEN }}
+        run: |
           GIT_AUTHOR_NAME: "Alex Brouwer"
           GIT_AUTHOR_EMAIL: "brouwer.alexander@Gmail.com"
-        run: |
           TAG_NAME="${GITHUB_REF##*/}"
           bin/gh-workflow/split_and_push.sh /tmp/selected.json "${GITHUB_REF_TYPE}" "$TAG_NAME" "${GITHUB_SHA}"
 
