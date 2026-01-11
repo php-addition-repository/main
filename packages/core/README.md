@@ -1,6 +1,6 @@
 # PHP Addition Repository - Core
 
-Core library for the par project
+Core library for the PAR project
 
 ## Installation
 
