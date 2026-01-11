@@ -44,12 +44,8 @@ final readonly class Values
             return true;
         }
 
-        if ($value instanceof Equable && ($otherValue instanceof Equable || null === $otherValue)) {
-            return $value->equals($otherValue);
-        }
-
-        if ($otherValue instanceof Equable && ($value instanceof Equable || null === $value)) {
-            return $otherValue->equals($value);
+        if ($value instanceof Equable) {
+            return $otherValue instanceof Equable && $value->equals($otherValue);
         }
 
         if ($value instanceof DateTimeInterface && $otherValue instanceof DateTimeInterface) {

@@ -27,7 +27,9 @@ final class ValuesTest extends TestCase
 
         $obj1 = new EquableObject('foo');
         $obj2 = new EquableObject('bar');
+        $obj3 = new EquableObject('baz');
         self::assertTrue(Values::equalsAnyIn($obj1, [$obj2, new EquableObject('foo')]));
+        self::assertFalse(Values::equalsAnyIn($obj1, [$obj2, $obj3]));
     }
 
     public function testEqualsAnyOf(): void
@@ -39,7 +41,9 @@ final class ValuesTest extends TestCase
 
         $obj1 = new EquableObject('foo');
         $obj2 = new EquableObject('bar');
+        $obj3 = new EquableObject('baz');
         self::assertTrue(Values::equalsAnyOf($obj1, $obj2, new EquableObject('foo')));
+        self::assertFalse(Values::equalsAnyOf($obj1, $obj2, $obj3));
     }
 
     public function testEqualsNoneIn(): void
@@ -51,8 +55,9 @@ final class ValuesTest extends TestCase
 
         $obj1 = new EquableObject('foo');
         $obj2 = new EquableObject('bar');
+        $obj3 = new EquableObject('baz');
         self::assertFalse(Values::equalsNoneIn($obj1, [$obj2, new EquableObject('foo')]));
-        self::assertTrue(Values::equalsNoneIn($obj1, [$obj2]));
+        self::assertTrue(Values::equalsNoneIn($obj1, [$obj2, $obj3]));
     }
 
     public function testEqualsNoneOf(): void
@@ -64,8 +69,9 @@ final class ValuesTest extends TestCase
 
         $obj1 = new EquableObject('foo');
         $obj2 = new EquableObject('bar');
+        $obj3 = new EquableObject('baz');
         self::assertFalse(Values::equalsNoneOf($obj1, $obj2, new EquableObject('foo')));
-        self::assertTrue(Values::equalsNoneOf($obj1, $obj2));
+        self::assertTrue(Values::equalsNoneOf($obj1, $obj2, $obj3));
     }
 
     public function testEqualsWithDateTime(): void
@@ -95,7 +101,21 @@ final class ValuesTest extends TestCase
     public function testEqualsWithDifferentTypes(): void
     {
         self::assertFalse(Values::equals(1, 1.0));
+        self::assertFalse(Values::equals('1', 1));
+    }
+
+    public function testEqualsWithDifferentObjectInstances(): void
+    {
         self::assertFalse(Values::equals(new stdClass(), new stdClass()));
+    }
+
+    public function testEqualsWithMixedDateTimeTypes(): void
+    {
+        $dt1 = new DateTimeImmutable('2024-01-01 10:00:00.123456', new DateTimeZone('UTC'));
+        $dt2 = new DateTime('2024-01-01 10:00:00.123456', new DateTimeZone('UTC'));
+
+        self::assertFalse(Values::equals($dt1, $dt2), 'DateTimeImmutable and DateTime should not be equal');
+        self::assertFalse(Values::equals($dt2, $dt1), 'DateTime and DateTimeImmutable should not be equal');
     }
 
     public function testEqualsWithEquable(): void
@@ -110,15 +130,6 @@ final class ValuesTest extends TestCase
             Values::equals($obj1, $obj3),
             'Different instances with different values should not be equal',
         );
-    }
-
-    public function testEqualsWithMixedDateTimeTypes(): void
-    {
-        $dt1 = new DateTimeImmutable('2024-01-01 10:00:00.123456', new DateTimeZone('UTC'));
-        $dt2 = new DateTime('2024-01-01 10:00:00.123456', new DateTimeZone('UTC'));
-
-        self::assertFalse(Values::equals($dt1, $dt2), 'DateTimeImmutable and DateTime should not be equal');
-        self::assertFalse(Values::equals($dt2, $dt1), 'DateTime and DateTimeImmutable should not be equal');
     }
 
     public function testEqualsWithMixedEquableAndNonEquable(): void
