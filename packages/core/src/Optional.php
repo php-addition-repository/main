@@ -7,6 +7,7 @@ namespace Par\Core;
 use loophp\iterators\IterableIteratorAggregate;
 use Par\Core\Exception\NoSuchElementException;
 use Throwable;
+use function is_callable;
 
 /**
  * A container object which may or may not contain a value.
@@ -36,6 +37,7 @@ final readonly class Optional implements Equable
      * Returns an `Par\Core\Optional` describing the given value.
      *
      * @template T
+     *
      * @param T $value The value to describe, which can be `null`
      *
      * @return Optional<T>
@@ -50,6 +52,7 @@ final readonly class Optional implements Equable
      * empty `Par\Core\Optional`.
      *
      * @template T
+     *
      * @param iterable<T> $iterable The iterable to use the current value from
      *
      * @return Optional<T>|Optional<null>
@@ -68,13 +71,14 @@ final readonly class Optional implements Equable
      * Returns an `Par\Core\Optional` describing the given value, if non-null, otherwise returns an empty `Par\Core\Optional`.
      *
      * @template T
+     *
      * @param T $value The value to describe, which can be `null`
      *
      * @return Optional<T>|Optional<null>
      */
     public static function fromNullable(mixed $value): self
     {
-        if (!is_null($value)) {
+        if (null !== $value) {
             return new self(true, $value);
         }
 

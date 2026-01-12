@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Par\Core\Comparison\Exception;
 
 use Par\Core\Exception\InvalidArgumentException;
+use function sprintf;
 
 final class IncomparableException extends InvalidArgumentException
 {

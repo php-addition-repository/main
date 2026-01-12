@@ -31,6 +31,7 @@ interface Equable
      * ```
      *
      * @template TValue of Equable
+     *
      * @param TValue|null $other The other value with which to compare
      *
      * @return bool `true` if this object should be considered equal to other value, `false` otherwise

@@ -7,6 +7,8 @@ namespace Par\Core\Tests\Fixtures;
 use Par\Core\Comparison\Comparable;
 use Par\Core\Comparison\Exception\IncomparableException;
 use Par\Core\Comparison\Order;
+use function gettype;
+use function sprintf;
 
 /**
  * @internal

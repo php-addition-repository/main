@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Par\Core\Comparison;
 
 use Throwable;
+use function is_int;
 
 /**
  * This enum represents the value of something when compared to another.
