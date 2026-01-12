@@ -6,6 +6,7 @@ namespace Par\Core\Comparison;
 
 use Closure;
 use Stringable;
+
 use function is_string;
 
 /**

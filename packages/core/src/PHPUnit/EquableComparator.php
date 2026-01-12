@@ -8,6 +8,7 @@ use Par\Core\Equable;
 use SebastianBergmann\Comparator\Comparator;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Exporter\Exporter;
+
 use function assert;
 
 final class EquableComparator extends Comparator

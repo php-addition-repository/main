@@ -6,6 +6,7 @@ namespace Par\Core\Comparison;
 
 use Closure;
 use TypeError;
+
 use function sprintf;
 
 /**

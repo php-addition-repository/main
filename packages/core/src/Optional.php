@@ -7,6 +7,7 @@ namespace Par\Core;
 use loophp\iterators\IterableIteratorAggregate;
 use Par\Core\Exception\NoSuchElementException;
 use Throwable;
+
 use function is_callable;
 
 /**
