@@ -16,6 +16,11 @@ use Closure;
 final readonly class ExtractorComparator implements Comparator
 {
     /**
+     * @use InvokableComparatorTrait<TValue>
+     */
+    use InvokableComparatorTrait;
+
+    /**
      * @use ReversibleComparatorTrait<TValue>
      */
     use ReversibleComparatorTrait;
@@ -24,11 +29,6 @@ final readonly class ExtractorComparator implements Comparator
      * @use ThenableComparatorTrait<TValue>
      */
     use ThenableComparatorTrait;
-
-    /**
-     * @use InvokableComparatorTrait<TValue>
-     */
-    use InvokableComparatorTrait;
 
     /**
      * @use UsingComparatorTrait<TValue>
