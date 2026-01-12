@@ -6,14 +6,12 @@ namespace Par\Core\Tests;
 
 use Par\Core\Equable;
 use Par\Core\Tests\Fixtures\EquableObject;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
-#[CoversClass(Equable::class)]
 final class EquableTest extends TestCase
 {
     #[Test]
