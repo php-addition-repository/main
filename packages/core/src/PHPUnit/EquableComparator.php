@@ -13,7 +13,7 @@ final class EquableComparator extends Comparator
 {
     public function accepts(mixed $expected, mixed $actual): bool
     {
-        return $expected instanceof Equable && ($actual instanceof Equable || $actual === null);
+        return $expected instanceof Equable && ($actual instanceof Equable || null === $actual);
     }
 
     public function assertEquals(
