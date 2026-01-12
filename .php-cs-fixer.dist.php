@@ -17,7 +17,6 @@ return (new PhpCsFixer\Config())
             ],
             'ordered_imports' => ['sort_algorithm' => 'alpha', 'imports_order' => ['class', 'function', 'const']],
             'final_class' => true,
-            'single_line_empty_body' => false,
             'strict_param' => true,
             'php_unit_internal_class' => ['types' => ['abstract', 'final', 'normal']],
             'php_unit_method_casing' => ['case' => 'camel_case'],

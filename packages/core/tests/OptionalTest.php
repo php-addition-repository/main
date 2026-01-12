@@ -296,8 +296,7 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::empty();
 
-        $customException = new class extends Exception {
-        };
+        $customException = new class extends Exception {};
         $this->expectExceptionObject($customException);
         $optional->orElseThrow(static fn(): Throwable => $customException);
     }

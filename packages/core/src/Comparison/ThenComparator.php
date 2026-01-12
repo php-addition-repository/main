@@ -35,9 +35,7 @@ final readonly class ThenComparator implements Comparator
      * @param Comparator<TValue> $first
      * @param Comparator<TValue> $next
      */
-    public function __construct(private Comparator $first, private Comparator $next)
-    {
-    }
+    public function __construct(private Comparator $first, private Comparator $next) {}
 
     public function compare(mixed $v1, mixed $v2): Order
     {

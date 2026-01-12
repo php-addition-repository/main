@@ -84,9 +84,7 @@ final readonly class Optional implements Equable
     /**
      * @param TValue $value
      */
-    private function __construct(private bool $hasValue = false, private mixed $value = null)
-    {
-    }
+    private function __construct(private bool $hasValue = false, private mixed $value = null) {}
 
     public function equals(?Equable $other): bool
     {
@@ -135,8 +133,7 @@ final readonly class Optional implements Equable
     {
         $this->ifPresentOrElse(
             $action,
-            static function (): void {
-            },
+            static function (): void {},
         );
     }
 

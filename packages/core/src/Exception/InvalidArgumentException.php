@@ -6,6 +6,4 @@ namespace Par\Core\Exception;
 
 use InvalidArgumentException as GlobalInvalidArgumentException;
 
-abstract class InvalidArgumentException extends GlobalInvalidArgumentException implements ExceptionInterface
-{
-}
+abstract class InvalidArgumentException extends GlobalInvalidArgumentException implements ExceptionInterface {}

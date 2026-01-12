@@ -41,9 +41,7 @@ final readonly class ExtractorComparator implements Comparator
      * @param Closure(TValue):UValue $extractor
      * @param Comparator<UValue> $comparator
      */
-    public function __construct(private Closure $extractor, private Comparator $comparator)
-    {
-    }
+    public function __construct(private Closure $extractor, private Comparator $comparator) {}
 
     public function compare(mixed $v1, mixed $v2): Order
     {

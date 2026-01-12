@@ -40,9 +40,7 @@ final readonly class ClosureComparator implements Comparator
     /**
      * @param _Comparator $comparator
      */
-    public function __construct(private Closure $comparator)
-    {
-    }
+    public function __construct(private Closure $comparator) {}
 
     public function compare(mixed $v1, mixed $v2): Order
     {

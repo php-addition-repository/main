@@ -11,9 +11,7 @@ use Par\Core\Equable;
  */
 final readonly class EquableObject implements Equable
 {
-    public function __construct(private string|int|float $value)
-    {
-    }
+    public function __construct(private string|int|float $value) {}
 
     public function equals(?Equable $other): bool
     {

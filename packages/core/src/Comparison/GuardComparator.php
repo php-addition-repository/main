@@ -48,8 +48,7 @@ final readonly class GuardComparator implements Comparator
         private Comparator $guardedComparator,
         private Closure $predicate,
         private string $additionalInfo = '',
-    ) {
-    }
+    ) {}
 
     /**
      * @phpstan-assert string|Stringable $v1

@@ -31,9 +31,7 @@ final readonly class ReverseComparator implements Comparator
     /**
      * @param Comparator<TValue> $reversedComparator
      */
-    public function __construct(private Comparator $reversedComparator)
-    {
-    }
+    public function __construct(private Comparator $reversedComparator) {}
 
     public function compare(mixed $v1, mixed $v2): Order
     {

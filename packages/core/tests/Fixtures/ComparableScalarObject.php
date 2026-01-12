@@ -15,9 +15,7 @@ use Par\Core\Comparison\Order;
  */
 final readonly class ComparableScalarObject implements Comparable
 {
-    public function __construct(public int|string $value)
-    {
-    }
+    public function __construct(public int|string $value) {}
 
     public function compare(Comparable $other): Order
     {

@@ -6,6 +6,4 @@ namespace Par\Core\Exception;
 
 use Exception;
 
-final class NoSuchElementException extends Exception implements ExceptionInterface
-{
-}
+final class NoSuchElementException extends Exception implements ExceptionInterface {}
