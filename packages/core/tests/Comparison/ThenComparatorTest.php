@@ -17,8 +17,8 @@ final class ThenComparatorTest extends TestCase
     public function testItReturnsDecoratedWhenReversed(): void
     {
         $comparator = new ThenComparator(
-            new ClosureComparator(static fn(array $left, array $right) => $left[0] <=> $right[0]),
-            new ClosureComparator(static fn(array $left, array $right) => $left[1] <=> $right[1]),
+            new ClosureComparator(static fn (array $left, array $right) => $left[0] <=> $right[0]),
+            new ClosureComparator(static fn (array $left, array $right) => $left[1] <=> $right[1]),
         );
 
         self::assertEquals(Order::Equal, $comparator->compare([1, 2], [1, 2]));

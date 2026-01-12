@@ -121,7 +121,7 @@ final readonly class Comparators
     public static function floats(): Comparator
     {
         return new GuardComparator(
-            self::with(static fn(float $a, float $b): Order => Order::from($a <=> $b)),
+            self::with(static fn (float $a, float $b): Order => Order::from($a <=> $b)),
             is_float(...),
             'Both values must be a float.',
         );
@@ -137,7 +137,7 @@ final readonly class Comparators
     public static function integers(): Comparator
     {
         return new GuardComparator(
-            self::with(static fn(int $a, int $b): Order => Order::from($a <=> $b)),
+            self::with(static fn (int $a, int $b): Order => Order::from($a <=> $b)),
             is_int(...),
             'Both values must be an integer.',
         );
@@ -155,7 +155,7 @@ final readonly class Comparators
     {
         return self::createStringGuard(
             self::with(
-                static fn(string|Stringable $value, string|Stringable $otherValue): Order => Order::from(
+                static fn (string|Stringable $value, string|Stringable $otherValue): Order => Order::from(
                     strnatcmp((string) $value, (string) $otherValue),
                 ),
             ),
@@ -174,7 +174,7 @@ final readonly class Comparators
     {
         return self::createStringGuard(
             self::with(
-                static fn(string|Stringable $value, string|Stringable $otherValue): Order => Order::from(
+                static fn (string|Stringable $value, string|Stringable $otherValue): Order => Order::from(
                     strnatcasecmp((string) $value, (string) $otherValue),
                 ),
             ),
@@ -192,7 +192,7 @@ final readonly class Comparators
     {
         return self::createStringGuard(
             self::with(
-                static fn(string|Stringable $a, string|Stringable $b): Order => Order::from(
+                static fn (string|Stringable $a, string|Stringable $b): Order => Order::from(
                     (string) $a <=> (string) $b,
                 ),
             ),
@@ -251,7 +251,7 @@ final readonly class Comparators
     {
         return new GuardComparator(
             $comparator,
-            static fn(mixed $value): bool => is_string($value) || $value instanceof Stringable,
+            static fn (mixed $value): bool => is_string($value) || $value instanceof Stringable,
             'Both values must be a string or an object implementing the Stringable interface.',
         );
     }

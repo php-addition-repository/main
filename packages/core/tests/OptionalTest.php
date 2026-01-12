@@ -59,7 +59,7 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::fromAny('bar');
 
-        self::assertEquals(Optional::empty(), $optional->filter(static fn(string $value): bool => 'bar' !== $value));
+        self::assertEquals(Optional::empty(), $optional->filter(static fn (string $value): bool => 'bar' !== $value));
     }
 
     #[Test]
@@ -67,7 +67,7 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::fromAny('foo');
 
-        self::assertEquals($optional, $optional->filter(static fn(string $value): bool => 'foo' === $value));
+        self::assertEquals($optional, $optional->filter(static fn (string $value): bool => 'foo' === $value));
     }
 
     #[Test]
@@ -211,7 +211,7 @@ final class OptionalTest extends TestCase
     {
         $optional = Optional::empty();
 
-        self::assertEquals(Optional::empty(), $optional->map(static fn(?string $value): string => $value . '-mapped'));
+        self::assertEquals(Optional::empty(), $optional->map(static fn (?string $value): string => $value . '-mapped'));
     }
 
     #[Test]
@@ -221,7 +221,7 @@ final class OptionalTest extends TestCase
 
         self::assertEquals(
             Optional::fromAny('foo-mapped'),
-            $optional->map(static fn(string $value): string => $value . '-mapped'),
+            $optional->map(static fn (string $value): string => $value . '-mapped'),
         );
     }
 
@@ -229,7 +229,7 @@ final class OptionalTest extends TestCase
     public function mapsToEmptyWhenNotPresent(): void
     {
         $optional = Optional::empty();
-        self::assertEquals(Optional::empty(), $optional->map(static fn(string $value): string => $value . '-mapped'));
+        self::assertEquals(Optional::empty(), $optional->map(static fn (string $value): string => $value . '-mapped'));
     }
 
     #[Test]
@@ -238,7 +238,7 @@ final class OptionalTest extends TestCase
         $optional = Optional::fromAny('foo');
         self::assertEquals(
             Optional::fromAny('foo-mapped'),
-            $optional->map(static fn(string $value): string => $value . '-mapped'),
+            $optional->map(static fn (string $value): string => $value . '-mapped'),
         );
     }
 
@@ -249,7 +249,7 @@ final class OptionalTest extends TestCase
 
         $otherValue = 'foo';
 
-        self::assertEquals($otherValue, $optional->orElseGet(static fn(): string => $otherValue));
+        self::assertEquals($otherValue, $optional->orElseGet(static fn (): string => $otherValue));
     }
 
     #[Test]
@@ -260,7 +260,7 @@ final class OptionalTest extends TestCase
 
         $otherValue = 'bar';
 
-        self::assertEquals($value, $optional->orElseGet(static fn(): string => $otherValue));
+        self::assertEquals($value, $optional->orElseGet(static fn (): string => $otherValue));
     }
 
     #[Test]
@@ -298,7 +298,7 @@ final class OptionalTest extends TestCase
 
         $customException = new class extends Exception {};
         $this->expectExceptionObject($customException);
-        $optional->orElseThrow(static fn(): Throwable => $customException);
+        $optional->orElseThrow(static fn (): Throwable => $customException);
     }
 
     #[Test]

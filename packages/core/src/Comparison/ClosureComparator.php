@@ -48,7 +48,7 @@ final readonly class ClosureComparator implements Comparator
 
         return Order::castOrThrow(
             $comparator($v1, $v2),
-            static fn(mixed $value): TypeError => new TypeError(
+            static fn (mixed $value): TypeError => new TypeError(
                 sprintf(
                     'Return value of callable comparator provided to %s must be %s|int<1,-1>, got %s',
                     self::class,

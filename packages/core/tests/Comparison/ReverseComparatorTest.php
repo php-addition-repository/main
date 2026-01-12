@@ -16,7 +16,7 @@ final class ReverseComparatorTest extends TestCase
 {
     public function testItReturnsDecoratedWhenReversed(): void
     {
-        $decorated = new ClosureComparator(static fn(int $a, int $b): int => $a <=> $b);
+        $decorated = new ClosureComparator(static fn (int $a, int $b): int => $a <=> $b);
         $comparator = new ReverseComparator($decorated);
 
         self::assertSame($decorated, $comparator->reversed());
@@ -24,7 +24,7 @@ final class ReverseComparatorTest extends TestCase
 
     public function testItReversesOrderOfDecoratedComparator(): void
     {
-        $comparator = new ReverseComparator(new ClosureComparator(static fn(int $a, int $b): int => $a <=> $b));
+        $comparator = new ReverseComparator(new ClosureComparator(static fn (int $a, int $b): int => $a <=> $b));
 
         self::assertEquals(Order::Equal, $comparator->compare(1, 1));
         self::assertEquals(Order::Lesser, $comparator->compare(2, 1));

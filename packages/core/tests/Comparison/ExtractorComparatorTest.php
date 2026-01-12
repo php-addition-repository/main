@@ -16,8 +16,8 @@ final class ExtractorComparatorTest extends TestCase
 {
     public function testItPassesExtractedValueToDecoratedComparator(): void
     {
-        $decorated = new ClosureComparator(static fn(int $a, int $b): int => $a <=> $b);
-        $comparator = new ExtractorComparator(static fn(string $value): int => (int) $value, $decorated);
+        $decorated = new ClosureComparator(static fn (int $a, int $b): int => $a <=> $b);
+        $comparator = new ExtractorComparator(static fn (string $value): int => (int) $value, $decorated);
 
         self::assertEquals(Order::Equal, $comparator->compare('1', '1'));
         self::assertEquals(Order::Greater, $comparator->compare('2', '1'));

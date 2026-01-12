@@ -28,7 +28,7 @@ final class ClosureComparatorTest extends TestCase
     #[DataProvider('comparableValuesProvider')]
     public function testItCanCompareValues(mixed $a, mixed $b, Order $expected): void
     {
-        $comparator = Comparators::with(static fn(mixed $a, mixed $b): int => $a <=> $b);
+        $comparator = Comparators::with(static fn (mixed $a, mixed $b): int => $a <=> $b);
 
         self::assertEquals($expected, $comparator->compare($a, $b));
     }
