@@ -39,7 +39,7 @@ final readonly class ExtractorComparator implements Comparator
      * @template UValue
      *
      * @param Closure(TValue):UValue $extractor
-     * @param Comparator<UValue> $comparator
+     * @param Comparator<UValue>     $comparator
      */
     public function __construct(private Closure $extractor, private Comparator $comparator) {}
 

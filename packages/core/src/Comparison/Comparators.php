@@ -33,8 +33,8 @@ final readonly class Comparators
      *
      * @template T type of value to test
      *
-     * @param T $value The value to test
-     * @param T $otherValue The other value to test against
+     * @param T                  $value      The value to test
+     * @param T                  $otherValue The other value to test against
      * @param Comparator<T>|null $comparator Optional comparator to use, defaults to `Par\Core\Comparison\Comparators::values()`
      *
      * @return bool `true` if value comes after otherValue
@@ -56,8 +56,8 @@ final readonly class Comparators
      *
      * @template T type of value to test
      *
-     * @param T $value the value to test
-     * @param T $otherValue the other value to test against
+     * @param T                  $value      the value to test
+     * @param T                  $otherValue the other value to test against
      * @param Comparator<T>|null $comparator Optional comparator to use, defaults to `Par\Core\Comparison\Comparators::values()`
      *
      * @return bool `true` if value comes after or equals otherValue
@@ -77,8 +77,8 @@ final readonly class Comparators
      *
      * @template T type of value to test
      *
-     * @param T $value the value to test
-     * @param T $otherValue the other value to test against
+     * @param T                  $value      the value to test
+     * @param T                  $otherValue the other value to test against
      * @param Comparator<T>|null $comparator Optional comparator to use, defaults to `Par\Core\Comparison\Comparators::values()`
      *
      * @return bool `true` if value comes before otherValue
@@ -100,8 +100,8 @@ final readonly class Comparators
      *
      * @template T type of value to test
      *
-     * @param T $value The value to test
-     * @param T $otherValue the other value to test against
+     * @param T                  $value      The value to test
+     * @param T                  $otherValue the other value to test against
      * @param Comparator<T>|null $comparator Optional comparator to use, defaults to `Par\Core\Comparison\Comparators::values()`
      *
      * @return bool `true` if value comes before or equals otherValue

@@ -140,8 +140,8 @@ final readonly class Optional implements Equable
     /**
      * If a value is present, performs the given action with the value, otherwise performs the given empty-based action.
      *
-     * @param callable(TValue): void $action The action to execute when a value is present
-     * @param callable(): void $emptyAction The action to execute when the optional is empty
+     * @param callable(TValue): void $action      The action to execute when a value is present
+     * @param callable(): void       $emptyAction The action to execute when the optional is empty
      */
     public function ifPresentOrElse(callable $action, callable $emptyAction): void
     {

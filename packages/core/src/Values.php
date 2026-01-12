@@ -33,7 +33,7 @@ final readonly class Values
      *
      * @template TValue
      *
-     * @param mixed $value The value to test
+     * @param mixed  $value      The value to test
      * @param TValue $otherValue The other value with which to compare
      *
      * @return bool `true` if both values should be considered equal
@@ -71,7 +71,7 @@ final readonly class Values
      *
      * @template TValue
      *
-     * @param mixed $value The value to test
+     * @param mixed            $value       The value to test
      * @param iterable<TValue> $otherValues The list of other values with which to compare
      *
      * @return bool `true` if value should be considered equal to any of the items in the list of other values
@@ -95,7 +95,7 @@ final readonly class Values
      *
      * @template TValue
      *
-     * @param mixed $value The value to test
+     * @param mixed  $value          The value to test
      * @param TValue ...$otherValues The other values with which to compare
      *
      * @return bool `true` if value should be considered equal to any of the other values
@@ -119,7 +119,7 @@ final readonly class Values
      *
      * @template TValue
      *
-     * @param mixed $value The value to test
+     * @param mixed            $value       The value to test
      * @param iterable<TValue> $otherValues The list of other values with which to compare
      *
      * @return bool `true` if value should be considered equal to __none__ of the items in the list of other values
@@ -143,7 +143,7 @@ final readonly class Values
      *
      * @template TValue
      *
-     * @param mixed $value The value to test
+     * @param mixed  $value          The value to test
      * @param TValue ...$otherValues The other values with which to compare
      *
      * @return bool `true` if value should be considered equal to __none__ of the other values

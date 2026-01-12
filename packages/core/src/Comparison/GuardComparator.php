@@ -40,9 +40,9 @@ final readonly class GuardComparator implements Comparator
     use UsingComparatorTrait;
 
     /**
-     * @param Comparator<TValue> $guardedComparator The comparator that is guarded
-     * @param Closure(mixed): bool $predicate The predicate to use to verify the values being compared
-     * @param string $additionalInfo optional additional info to add to the thrown exception message
+     * @param Comparator<TValue>   $guardedComparator The comparator that is guarded
+     * @param Closure(mixed): bool $predicate         The predicate to use to verify the values being compared
+     * @param string               $additionalInfo    optional additional info to add to the thrown exception message
      */
     public function __construct(
         private Comparator $guardedComparator,
