@@ -15,6 +15,6 @@ final readonly class EquableObject implements Equable
 
     public function equals(?Equable $other): bool
     {
-        return $other instanceof EquableObject && $other->value === $this->value;
+        return $other instanceof self && $other->value === $this->value;
     }
 }

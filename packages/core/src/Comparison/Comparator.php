@@ -46,7 +46,7 @@ interface Comparator
      *
      * @return Comparator<TValue>
      */
-    public function reversed(): Comparator;
+    public function reversed(): self;
 
     /**
      * Returns a lexicographic-order comparator with another comparator.
@@ -55,7 +55,7 @@ interface Comparator
      *
      * @return Comparator<TValue>
      */
-    public function then(Comparator $nextComparator): Comparator;
+    public function then(self $nextComparator): self;
 
     /**
      * Returns a comparator that uses the extractor to determine the values to compare.
@@ -64,5 +64,5 @@ interface Comparator
      *
      * @return Comparator<TValue>
      */
-    public function using(Closure $extractor): Comparator;
+    public function using(Closure $extractor): self;
 }

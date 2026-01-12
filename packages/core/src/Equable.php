@@ -35,5 +35,5 @@ interface Equable
      *
      * @return bool `true` if this object should be considered equal to other value, `false` otherwise
      */
-    public function equals(?Equable $other): bool;
+    public function equals(?self $other): bool;
 }

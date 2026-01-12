@@ -32,5 +32,5 @@ interface Comparable
      *
      * @phpstan-assert T $other
      */
-    public function compare(Comparable $other): Order;
+    public function compare(self $other): Order;
 }
