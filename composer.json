@@ -7,7 +7,8 @@
     "loophp/iterators": "^2.0 | ^3.0"
   },
   "replace": {
-    "par/core": "self.version"
+    "par/core": "self.version",
+    "par/time": "self.version"
   },
   "minimum-stability": "stable",
   "prefer-stable": true,
@@ -22,12 +23,14 @@
   },
   "autoload": {
     "psr-4": {
-      "Par\\Core\\": "packages/core/src/"
+      "Par\\Core\\": "packages/core/src/",
+      "Par\\Time\\": "packages/time/src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Par\\Core\\Tests\\": "packages/core/tests/"
+      "Par\\Core\\Tests\\": "packages/core/tests/",
+      "Par\\Time\\Tests\\": "packages/time/tests/"
     }
   },
   "require-dev": {
