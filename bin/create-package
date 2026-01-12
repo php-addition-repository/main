@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
 
-set -euo pipefaile
+set -euo pipefail
 
 if [ -z "$1" ]; then
     echo "Usage: $0 <package-name>"
     exit 1
 fi
 
-PACKAGE_NAME=${1,,}
+PACKAGE_NAME=${1}
 ORG="php-addition-repository"
-REPO_NAME=$PACKAGE_NAME
-PACKAGE_PATH="packages/$PACKAGE_NAME"
-NAMESPACE_PART=$(echo "$PACKAGE_NAME" | sed -r 's/(^|-)([a-z])/\U\2/g')
+REPO_NAME="${PACKAGE_NAME,,}"
+PACKAGE_PATH="packages/${REPO_NAME}"
+NAMESPACE_PART=$(echo "$REPO_NAME" | sed -r 's/(^|-)([a-z])/\U\2/g')
 NAMESPACE="Par\\$NAMESPACE_PART"
 
 echo "Summary of creation:"
 echo "--------------------"
-echo "Package Name:    $PACKAGE_NAME"
+echo "Package Name:    par/$REPO_NAME"
 echo "Repository Name: $ORG/$REPO_NAME"
 echo "Package Path:    $PACKAGE_PATH"
 echo "Namespace:       $NAMESPACE"
@@ -41,7 +41,7 @@ touch "$PACKAGE_PATH/tests/.gitkeep"
 
 echo "Creating gitignore"
 touch "$PACKAGE_PATH/.gitignore"
-echo <<'EOF' > "$PACKAGE_PATH/.gitignore"
+cat <<'EOF' > "$PACKAGE_PATH/.gitignore"
 # Composer
 vendor/
 composer.lock
@@ -49,28 +49,26 @@ EOF
 
 echo "Creating composer.json..."
 # Use single quotes for EOF to prevent shell expansion of backslashes
-cat <<'EOF' > "$PACKAGE_PATH/composer.json"
+cat <<EOF > "$PACKAGE_PATH/composer.json"
 {
-  "name": "par/{{PACKAGE_NAME}}",
+  "name": "par/$REPO_NAME",
   "type": "library",
-  "description": "{{PACKAGE_NAME}} library for the par project",
+  "description": "$PACKAGE_NAME library for the par project",
   "require": {
     "php": "^8.3"
   },
   "autoload": {
     "psr-4": {
-      "{{NAMESPACE}}\\": "src/"
+      "$NAMESPACE\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "{{NAMESPACE}}\\Tests\\": "tests/"
+      "$NAMESPACE\\Tests\\": "tests/"
     }
   }
 }
 EOF
-sed -i "s/{{PACKAGE_NAME}}/$PACKAGE_NAME/g" "$PACKAGE_PATH/composer.json"
-sed -i "s/{{NAMESPACE}}/$NAMESPACE/g" "$PACKAGE_PATH/composer.json"
 # Note: $NAMESPACE is e.g. Par\Core, in JSON it should be Par\\Core.
 # But psr-4 needs Par\\Core\\: "src/"
 # So we need to double the backslashes for JSON.
@@ -82,14 +80,14 @@ cp "LICENSE" "$PACKAGE_PATH/LICENSE"
 echo "Creating README.md..."
 # TODO should use ".templates/README.md" as template
 cat <<EOF > "$PACKAGE_PATH/README.md"
-# PHP Addition Repository - $NAMESPACE_PART
+# PHP Addition Repository - $PACKAGE_NAME
 
-$PACKAGE_NAME library for the par project
+$PACKAGE_NAME library for the PAR project
 
 ## Installation
 
 \`\`\`
-composer require par/$PACKAGE_NAME
+composer require par/$REPO_NAME
 \`\`\`
 
 ## License
@@ -99,25 +97,29 @@ EOF
 
 echo "Updating root composer.json..."
 # Update replace
-jq --arg pkg "par/$PACKAGE_NAME" '.replace[$pkg] = "self.version"' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
+jq --arg pkg "par/$REPO_NAME" '.replace[$pkg] = "self.version"' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
 
 # Update autoload
 NS_AUTO="$NAMESPACE\\"
-jq --arg ns "$NS_AUTO" --arg path "packages/$PACKAGE_NAME/src/" '.autoload["psr-4"][$ns] = $path' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
+jq --arg ns "$NS_AUTO" --arg path "$PACKAGE_PATH/src/" '.autoload["psr-4"][$ns] = $path' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
 
 # Update autoload-dev
 NS_DEV="$NAMESPACE\\Tests\\"
-jq --arg ns "$NS_DEV" --arg path "packages/$PACKAGE_NAME/tests/" '."autoload-dev"["psr-4"][$ns] = $path' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
+jq --arg ns "$NS_DEV" --arg path "$PACKAGE_PATH/tests/" '."autoload-dev"["psr-4"][$ns] = $path' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
 
 echo "Creating GitHub repository $ORG/$REPO_NAME..."
 gh repo create "$ORG/$REPO_NAME" --public --description "$PACKAGE_NAME library for the PAR project" || echo "Repository might already exist or failed to create."
-git init "packages/$PACKAGE_NAME" --initial-branch=main
+
+echo "Committing and pushing initial structure to git..."
 pushd "$PACKAGE_PATH"
+git init --initial-branch=main
 git remote add origin "git@github.com:$ORG/$REPO_NAME.git"
 git add LICENSE README.md composer.json src/.gitkeep tests/.gitkeep .gitignore
 git commit -m "Initial package structure"
 git push -u origin main
 rm -rf .git
 popd
+
+composer update --lock
 
 echo "Package $PACKAGE_NAME created successfully!"
