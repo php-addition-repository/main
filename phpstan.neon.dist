@@ -5,3 +5,10 @@ parameters:
     bootstrapFiles:
         - vendor/autoload.php
         - tools/phpunit/vendor/autoload.php
+    tipsOfTheDay: false
+    ignoreErrors:
+        - path: packages/*/tests/*
+          message: '#^Method [a-zA-Z0-9\\_]+Test::[a-zA-Z0-9\\_]+\(\).+#'
+          # ignore missing value type on iterable type of methods and arguments
+          identifier: missingType.iterableValue
+
