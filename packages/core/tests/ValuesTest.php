@@ -7,6 +7,7 @@ namespace Par\Core\Tests;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use Par\Core\Tests\Fixtures\EquableObject;
 use Par\Core\Values;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;

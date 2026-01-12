@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Par\Core\Tests;
+namespace Par\Core\Tests\Fixtures;
 
 use Par\Core\Equable;
 

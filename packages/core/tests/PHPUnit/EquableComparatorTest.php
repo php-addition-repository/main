@@ -6,7 +6,7 @@ namespace Par\Core\Tests\PHPUnit;
 
 use Par\Core\Equable;
 use Par\Core\PHPUnit\EquableComparator;
-use Par\Core\Tests\EquableObject;
+use Par\Core\Tests\Fixtures\EquableObject;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
