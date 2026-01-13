@@ -4,6 +4,7 @@
   "description": "Time library for the par project",
   "require": {
     "php": "^8.3",
+    "ext-intl": "*",
     "psr/clock": "^1.0"
   },
   "provide": {
