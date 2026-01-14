@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Par\Time;
 
+use DateMalformedStringException;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use IntlDateFormatter;
-use Par\Time\Exception\InvalidArgumentException;
 use Par\Time\Exception\RuntimeException;
+use Par\Time\Format\DateTimeFormatter;
 use Par\Time\Format\TextStyle;
+
+use function sprintf;
 
 enum DayOfWeek: int
 {
@@ -23,6 +25,8 @@ enum DayOfWeek: int
     case SUNDAY = 7;
 
     /**
+     * Returns a DayOfWeek from an integer.
+     *
      * @param int<1,7> $dayOfWeek
      */
     public static function fromInt(int $dayOfWeek): self
@@ -31,7 +35,7 @@ enum DayOfWeek: int
     }
 
     /**
-     * Creates a DayOfWeek from a native DateTimeInterface object.
+     * Returns a DayOfWeek from a native DateTimeInterface object.
      */
     public static function fromNative(DateTimeInterface $dateTime): self
     {
@@ -41,17 +45,13 @@ enum DayOfWeek: int
         return self::from($isoDayOfWeek);
     }
 
+    /**
+     * Returns the localized name of the day-of-week.
+     *
+     * @param TextStyle $textStyle the length of the text
+     */
     public function getDisplayName(string $locale, TextStyle $textStyle): string
     {
-        if (!class_exists(IntlDateFormatter::class)) {
-            throw new InvalidArgumentException('The intl extension (IntlDateFormatter) is required.');
-        }
-
-        // Create a stable date with the requested ISO weekday.
-        // ISO week: setISODate(year, week, isoDayOfWeek) → isoDayOfWeek: 1=Mon .. 7=Sun
-        $date = (new DateTimeImmutable('00:00:00', new DateTimeZone('UTC')))
-            ->setISODate(2000, 1, $this->value);
-
         // Choose the ICU pattern for weekday only.
         $pattern = match ($textStyle) {
             TextStyle::FULL => 'EEEE',
@@ -62,25 +62,9 @@ enum DayOfWeek: int
             TextStyle::NARROW_STANDALONE => 'ccccc',
         };
 
-        // Use Gregorian calendar; we only care about formatting the weekday name.
-        $formatter = new IntlDateFormatter(
-            locale: $locale,
-            dateType: IntlDateFormatter::NONE,
-            timeType: IntlDateFormatter::NONE,
-            timezone: 'UTC',
-            calendar: IntlDateFormatter::GREGORIAN,
-            pattern: $pattern,
-        );
+        $formatter = DateTimeFormatter::ofPattern($pattern, $locale);
 
-        $text = $formatter->format($date);
-
-        if (false === $text) {
-            // If formatting fails, surface a useful error.
-            $err = intl_get_error_message();
-            throw new RuntimeException("Failed to format weekday: $err");
-        }
-
-        return $text;
+        return $formatter->format($this->toNative());
     }
 
     /**
@@ -100,7 +84,8 @@ enum DayOfWeek: int
      */
     public function plus(int $days): self
     {
-        $normalized = (($this->value - 1 + $days) % 7 + 7) % 7 + 1;
+        $amount = $days % 7;
+        $normalized = ($this->value - 1 + $amount + 7) % 7 + 1;
 
         return self::from($normalized);
     }
@@ -113,5 +98,31 @@ enum DayOfWeek: int
     public function toInt(): int
     {
         return $this->value;
+    }
+
+    /**
+     * Transforms the DayOfWeek into a native DateTimeImmutable object.
+     *
+     * This uses 1st week of the year 2000 at midnight UTC to create a stable date-time.
+     */
+    public function toNative(): DateTimeImmutable
+    {
+        try {
+            // Create a stable date with the requested ISO weekday.
+            // ISO week: setISODate(year, week, isoDayOfWeek) → isoDayOfWeek: 1=Mon .. 7=Sun
+            return (new DateTimeImmutable('00:00:00', new DateTimeZone('UTC')))
+                ->setISODate(2000, 1, $this->value);
+        } catch (DateMalformedStringException $e) {
+            throw new RuntimeException(
+                sprintf(
+                    'Failed to transform %s::%s to DateTimeImmutable: %s',
+                    self::class,
+                    $this->name,
+                    $e->getMessage(),
+                ),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 }
