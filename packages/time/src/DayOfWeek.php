@@ -9,12 +9,13 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use Par\Time\Exception\RuntimeException;
-use Par\Time\Format\DateTimeFormatter;
+use Par\Time\Format\DateTimeFormatterBuilder;
 use Par\Time\Format\TextStyle;
+use Par\Time\Temporal\TemporalTextField;
 
 use function sprintf;
 
-enum DayOfWeek: int
+enum DayOfWeek: int implements TemporalTextField
 {
     case MONDAY = 1;
     case TUESDAY = 2;
@@ -50,10 +51,18 @@ enum DayOfWeek: int
      *
      * @param TextStyle $textStyle the length of the text
      */
-    public function getDisplayName(string $locale, TextStyle $textStyle): string
+    public function getDisplayName(TextStyle $textStyle, ?string $locale = null): string
+    {
+        return DateTimeFormatterBuilder::create()
+                                       ->setLocale($locale)
+                                       ->appendText($this, $textStyle)
+                                       ->format($this->toNative());
+    }
+
+    public function getPattern(TextStyle $textStyle): string
     {
         // Choose the ICU pattern for weekday only.
-        $pattern = match ($textStyle) {
+        return match ($textStyle) {
             TextStyle::FULL => 'EEEE',
             TextStyle::FULL_STANDALONE => 'cccc',
             TextStyle::SHORT => 'EEE',
@@ -61,10 +70,6 @@ enum DayOfWeek: int
             TextStyle::NARROW => 'EEEEE',
             TextStyle::NARROW_STANDALONE => 'ccccc',
         };
-
-        $formatter = DateTimeFormatter::ofPattern($pattern, $locale);
-
-        return $formatter->format($this->toNative());
     }
 
     /**

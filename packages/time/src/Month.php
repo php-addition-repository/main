@@ -9,8 +9,9 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use Par\Time\Exception\RuntimeException;
-use Par\Time\Format\DateTimeFormatter;
+use Par\Time\Format\DateTimeFormatterBuilder;
 use Par\Time\Format\TextStyle;
+use Par\Time\Temporal\TemporalTextField;
 
 use function sprintf;
 
@@ -21,7 +22,7 @@ use function sprintf;
  *
  * In addition to the textual enum name, each month-of-year has an int value. The int value follows normal usage and the ISO-8601 standard, from 1 (January) to 12 (December). It is recommended that applications use the enum rather than the int value to ensure code clarity.
  */
-enum Month: int
+enum Month: int implements TemporalTextField
 {
     case JANUARY = 1;
     case FEBRUARY = 2;
@@ -59,10 +60,18 @@ enum Month: int
      *
      * @param TextStyle $textStyle the length of the text
      */
-    public function getDisplayName(string $locale, TextStyle $textStyle): string
+    public function getDisplayName(TextStyle $textStyle, ?string $locale = null): string
+    {
+        return DateTimeFormatterBuilder::create()
+                                       ->setLocale($locale)
+                                       ->appendText($this, $textStyle)
+                                       ->format($this->toNative());
+    }
+
+    public function getPattern(TextStyle $textStyle): string
     {
         // Choose the ICU pattern for month only.
-        $pattern = match ($textStyle) {
+        return match ($textStyle) {
             TextStyle::FULL => 'MMMM',
             TextStyle::FULL_STANDALONE => 'LLLL',
             TextStyle::SHORT => 'MMM',
@@ -70,10 +79,6 @@ enum Month: int
             TextStyle::NARROW => 'MMMMM',
             TextStyle::NARROW_STANDALONE => 'LLLLL',
         };
-
-        $formatter = DateTimeFormatter::ofPattern($pattern, $locale);
-
-        return $formatter->format($this->toNative());
     }
 
     /**

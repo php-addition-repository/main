@@ -112,7 +112,7 @@ final class MonthTest extends TestCase
         TextStyle $textStyle,
         string $expected,
     ): void {
-        self::assertSame($expected, $month->getDisplayName($locale, $textStyle));
+        self::assertSame($expected, $month->getDisplayName($textStyle, $locale));
     }
 
     #[Test]
