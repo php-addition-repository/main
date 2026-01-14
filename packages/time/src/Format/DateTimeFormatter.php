@@ -10,6 +10,8 @@ use Par\Time\Exception\RuntimeException;
 
 use function sprintf;
 
+use const LC_TIME;
+
 final readonly class DateTimeFormatter
 {
     public static function ofPattern(string $pattern, ?string $locale = null): self

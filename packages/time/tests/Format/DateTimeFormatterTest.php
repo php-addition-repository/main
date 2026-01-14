@@ -9,6 +9,11 @@ use IntlDateFormatter;
 use Par\Time\Format\DateTimeFormatter;
 use PHPUnit\Framework\TestCase;
 
+use function is_string;
+use function sprintf;
+
+use const LC_TIME;
+
 /**
  * @internal
  */
