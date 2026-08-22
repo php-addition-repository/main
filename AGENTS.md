@@ -11,3 +11,7 @@ Uses the default five-label vocabulary. See `docs/agents/triage-labels.md`.
 ### Domain docs
 
 Multi-context: `CONTEXT-MAP.md` directs readers to package-specific contexts and ADRs. See `docs/agents/domain.md`.
+
+### Package structure
+
+Before adding a package or changing package Composer/autoload metadata, read `docs/agents/package-structure.md`. Use `.aiassistant/skills/maintain-package-structure.md` for package creation or structural changes.
