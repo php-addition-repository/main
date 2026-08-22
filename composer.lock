@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f69fc69a06982a15bf9fc6a3bb53efac",
+    "content-hash": "613e2e703bf8ee693dfcc6c36767ce25",
     "packages": [
         {
             "name": "loophp/iterators",
@@ -183,7 +183,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.3"
+        "php": "^8.3",
+        "ext-intl": "*"
     },
     "platform-dev": [],
     "platform-overrides": {

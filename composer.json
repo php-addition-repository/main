@@ -10,7 +10,8 @@
   },
   "replace": {
     "par/core": "self.version",
-    "par/time": "self.version"
+    "par/time": "self.version",
+    "par/comparison": "self.version"
   },
   "minimum-stability": "stable",
   "prefer-stable": true,
@@ -26,13 +27,15 @@
   "autoload": {
     "psr-4": {
       "Par\\Core\\": "packages/core/src/",
-      "Par\\Time\\": "packages/time/src/"
+      "Par\\Time\\": "packages/time/src/",
+      "Par\\Comparison\\": "packages/comparison/src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
       "Par\\Core\\Tests\\": "packages/core/tests/",
-      "Par\\Time\\Tests\\": "packages/time/tests/"
+      "Par\\Time\\Tests\\": "packages/time/tests/",
+      "Par\\Comparison\\Tests\\": "packages/comparison/tests/"
     }
   },
   "require-dev": {

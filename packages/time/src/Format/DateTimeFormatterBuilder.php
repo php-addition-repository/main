@@ -11,6 +11,8 @@ use Par\Time\Temporal\TemporalTextField;
 final class DateTimeFormatterBuilder
 {
     private ?string $locale = null;
+    private ?FormatStyle $dateStyle = null;
+    private ?FormatStyle $timeStyle = null;
     private string $pattern = '';
 
     public static function create(): self
@@ -25,6 +27,14 @@ final class DateTimeFormatterBuilder
         if ('' !== $literal) {
             $this->pattern .= '\'' . str_replace('\'', '\'\'', $literal) . '\'';
         }
+
+        return $this;
+    }
+
+    public function appendLocalized(?FormatStyle $dateStyle = null, ?FormatStyle $timeStyle = null): self
+    {
+        $this->dateStyle = $dateStyle;
+        $this->timeStyle = $timeStyle;
 
         return $this;
     }
@@ -47,11 +57,15 @@ final class DateTimeFormatterBuilder
 
     public function build(): DateTimeFormatter
     {
-        if (empty(trim($this->pattern))) {
+        if (null === $this->dateStyle && null === $this->timeStyle && empty(trim($this->pattern))) {
             throw new RuntimeException('Pattern cannot be empty');
         }
 
-        return DateTimeFormatter::ofPattern($this->pattern, $this->locale);
+        if (!empty(trim($this->pattern))) {
+            return DateTimeFormatter::ofPattern($this->pattern, $this->locale);
+        }
+
+        return DateTimeFormatter::ofLocalized($this->dateStyle, $this->timeStyle, $this->locale);
     }
 
     public function format(DateTimeInterface $dateTime): string

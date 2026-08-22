@@ -14,12 +14,22 @@ use const LC_TIME;
 
 final readonly class DateTimeFormatter
 {
+    public static function ofLocalized(
+        ?FormatStyle $dateStyle,
+        ?FormatStyle $timeStyle,
+        ?string $locale,
+    ): self {
+        return new self($dateStyle, $timeStyle, null, $locale);
+    }
+
     public static function ofPattern(string $pattern, ?string $locale = null): self
     {
-        return new self($pattern, $locale ?? setlocale(LC_TIME, '0') ?: 'en_EN');
+        return new self(null, null, $pattern, $locale);
     }
 
     private function __construct(
+        private ?FormatStyle $dateStyle,
+        private ?FormatStyle $timeStyle,
         private ?string $pattern,
         private ?string $locale,
     ) {
@@ -30,7 +40,18 @@ final readonly class DateTimeFormatter
 
     public function format(DateTimeInterface $native): string
     {
-        $text = IntlDateFormatter::formatObject($native, $this->pattern, $this->locale);
+        $format = [];
+        if (null !== $this->dateStyle) {
+            $format[] = $this->dateStyle;
+        }
+        if (null !== $this->timeStyle) {
+            $format[] = $this->timeStyle;
+        }
+
+        if (null !== $this->pattern) {
+            $format = $this->pattern;
+        }
+        $text = IntlDateFormatter::formatObject($native, $format, $this->locale ?? setlocale(LC_TIME, '0') ?: 'en_EN');
 
         if (false === $text) {
             // If formatting fails, surface a useful error.

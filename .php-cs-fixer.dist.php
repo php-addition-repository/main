@@ -30,6 +30,7 @@ return (new PhpCsFixer\Config())
 
             # Function Notation
             'single_line_throw' => false,
+            'method_argument_space' => ['on_multiline' => 'ensure_fully_multiline'],
 
             # Operator
             'concat_space' => ['spacing' => 'one'],
