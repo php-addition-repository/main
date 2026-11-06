@@ -1,0 +1,8 @@
+{
+  "name": "par/main",
+  "type": "project",
+  "license": "MIT",
+  "config": {
+    "sort-packages": true
+  }
+}
