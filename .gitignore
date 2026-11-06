@@ -1,0 +1,11 @@
+# IntelliJ IDEA
+.idea
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Composer
+/vendor/
+composer.phar
